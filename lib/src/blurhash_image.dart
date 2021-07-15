@@ -5,16 +5,16 @@ import 'package:flutter/painting.dart';
 
 import 'blurhash_decode.dart';
 
-
 const _DEFAULT_SIZE = 32;
 
 class BlurHashImage extends ImageProvider<BlurHashImage> {
   /// Creates an object that decodes a [blurHash] as an image.
   ///
   /// The arguments must not be null.
-  const BlurHashImage(this.blurHash, {this.decodingWidth = _DEFAULT_SIZE, this.decodingHeight = _DEFAULT_SIZE, this.scale = 1.0})
-      : assert(blurHash != null),
-        assert(scale != null);
+  const BlurHashImage(this.blurHash,
+      {this.decodingWidth = _DEFAULT_SIZE,
+      this.decodingHeight = _DEFAULT_SIZE,
+      this.scale = 1.0});
 
   /// The bytes to decode into an image.
   final String blurHash;
@@ -46,13 +46,15 @@ class BlurHashImage extends ImageProvider<BlurHashImage> {
       width: decodingWidth,
       height: decodingHeight,
     );
-   return ImageInfo(image: image, scale: key.scale);
+    return ImageInfo(image: image, scale: key.scale);
   }
 
   @override
   bool operator ==(Object other) {
     if (other.runtimeType != runtimeType) return false;
-    return other is BlurHashImage && other.blurHash == blurHash && other.scale == scale;
+    return other is BlurHashImage &&
+        other.blurHash == blurHash &&
+        other.scale == scale;
   }
 
   @override

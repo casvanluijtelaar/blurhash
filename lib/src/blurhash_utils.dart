@@ -3,7 +3,7 @@ import 'dart:math';
 double sRGBToLinear(int value) {
   final v = value / 255;
   if (v <= 0.04045) return v / 12.92;
-  else return pow((v + 0.055) / 1.055, 2.4);
+  else return pow((v + 0.055) / 1.055, 2.4) as double;
 }
 
 int linearTosRGB(double value) {
@@ -14,4 +14,4 @@ int linearTosRGB(double value) {
 
 int sign(double n) => (n < 0 ? -1 : 1);
 
-double signPow(double val, double exp) => sign(val) * pow(val.abs(), exp);
+double signPow(double val, double exp) => sign(val) * (pow(val.abs(), exp) as double);

@@ -4,19 +4,18 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 
 import 'blurhash_base83.dart';
 import 'blurhash_utils.dart';
 
 Future<Uint8List> blurHashDecode({
-  @required String blurHash,
-  @required int width,
-  @required int height,
+  required String blurHash,
+  required int width,
+  required int height,
   double punch = 1.0,
 }) {
-  assert(blurHash != null && width != null && height != null && punch != null);
+ 
   _validateBlurHash(blurHash);
 
   final sizeFlag = decode83(blurHash[0]);
@@ -26,7 +25,7 @@ Future<Uint8List> blurHashDecode({
   final quantisedMaximumValue = decode83(blurHash[1]);
   final maximumValue = (quantisedMaximumValue + 1) / 166;
 
-  final colors = List(numX * numY);
+  final colors = [];
 
   for (var i = 0; i < colors.length; i++) {
     if (i == 0) {
@@ -73,24 +72,27 @@ Future<Uint8List> blurHashDecode({
 }
 
 Future<ui.Image> blurHashDecodeImage({
-  @required String blurHash,
-  @required int width,
-  @required int height,
+  required String blurHash,
+  required int width,
+  required int height,
   double punch = 1.0,
 }) async {
-  assert(blurHash != null && width != null && height != null && punch != null);
+  
   _validateBlurHash(blurHash);
 
   final completer = Completer<ui.Image>();
 
   if (kIsWeb) {
     // https://github.com/flutter/flutter/issues/45190
-    final pixels = await blurHashDecode(blurHash: blurHash, width: width, height: height, punch: punch);
+    final pixels = await blurHashDecode(
+        blurHash: blurHash, width: width, height: height, punch: punch);
     completer.complete(_createBmp(pixels, width, height));
-  }
-  else {
-    blurHashDecode(blurHash: blurHash, width: width, height: height, punch: punch).then((pixels) {
-      ui.decodeImageFromPixels(pixels, width, height, ui.PixelFormat.rgba8888, completer.complete);
+  } else {
+    blurHashDecode(
+            blurHash: blurHash, width: width, height: height, punch: punch)
+        .then((pixels) {
+      ui.decodeImageFromPixels(
+          pixels, width, height, ui.PixelFormat.rgba8888, completer.complete);
     });
   }
 
@@ -122,10 +124,8 @@ Future<ui.Image> _createBmp(Uint8List pixels, int width, int height) async {
   return frame.image;
 }
 
-
-
 void _validateBlurHash(String blurHash) {
-  if (blurHash == null || blurHash.length < 6) {
+  if (blurHash.length < 6) {
     throw Exception('The blurhash string must be at least 6 characters');
   }
 
@@ -139,9 +139,6 @@ void _validateBlurHash(String blurHash) {
         'it should be ${4 + 2 * numX * numY}');
   }
 }
-
-
-
 
 List _decodeDC(int value) {
   final intR = value >> 16;
@@ -165,10 +162,10 @@ List _decodeAC(int value, double maximumValue) {
 }
 
 class Style {
-  final String name;
-  final List<ui.Color> colors;
-  final ui.Color stroke;
-  final ui.Color background;
+  final String? name;
+  final List<ui.Color>? colors;
+  final ui.Color? stroke;
+  final ui.Color? background;
 
   const Style({this.name, this.colors, this.stroke, this.background});
 }

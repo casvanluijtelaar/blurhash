@@ -25,13 +25,15 @@ String blurHashEncode(
     );
   }
 
-  final factors = List<_Pixel>(numCompX * numpCompY);
+  final factors = <_Pixel>[];
   int i = 0;
   for (var y = 0; y < numpCompY; ++y) {
     for (var x = 0; x < numCompX; ++x) {
       final normalisation = (x == 0 && y == 0) ? 1.0 : 2.0;
       final basisFunc = (int i, int j) {
-        return normalisation * cos((pi * x * i) / width) * cos((pi * y * j) / height);
+        return normalisation *
+            cos((pi * x * i) / width) *
+            cos((pi * y * j) / height);
       };
       factors[i++] = _multiplyBasisFunction(data, width, height, basisFunc);
     }
@@ -46,7 +48,7 @@ String blurHashEncode(
 
   var maxVal = 1.0;
   if (ac.isNotEmpty) {
-    final maxElem = (_Pixel c) => max(c.r.abs(), max(c.g.abs(), c.b.abs()));
+    final maxElem = (_Pixel? c) => max(c!.r.abs(), max(c.g.abs(), c.b.abs()));
     final actualMax = ac.map(maxElem).reduce(max);
     final quantisedMax = max(0, min(82, (actualMax * 166.0 - 0.5).floor()));
     maxVal = (quantisedMax + 1.0) / 166.0;
@@ -108,4 +110,3 @@ class _Pixel {
   final double g;
   final double b;
 }
-

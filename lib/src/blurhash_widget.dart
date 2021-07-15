@@ -12,8 +12,8 @@ const _DEFAULT_SIZE = 32;
 /// Display a Hash then fade to Image
 class BlurHash extends StatefulWidget {
   const BlurHash({
-    Key key,
-    @required this.hash,
+    Key? key,
+    required this.hash,
     this.color = Colors.blueGrey,
     this.imageFit = BoxFit.fill,
     this.decodingWidth = _DEFAULT_SIZE,
@@ -25,21 +25,18 @@ class BlurHash extends StatefulWidget {
     this.transparant,
     this.duration = const Duration(milliseconds: 1000),
     this.curve = Curves.easeOut,
-  })  : assert(color != null),
-        assert(hash != null),
-        assert(duration != null),
-        assert(decodingWidth > 0),
+  })  : assert(decodingWidth > 0),
         assert(decodingHeight != 0),
         super(key: key);
 
   /// Callback when hash is decoded
-  final VoidCallback onDecoded;
+  final VoidCallback? onDecoded;
 
   /// Callback when image is downloaded
-  final VoidCallback onReady;
+  final VoidCallback? onReady;
 
   /// Callback when image is downloaded
-  final VoidCallback onStarted;
+  final VoidCallback? onStarted;
 
   /// Hash to decode
   final String hash;
@@ -57,21 +54,21 @@ class BlurHash extends StatefulWidget {
   final int decodingHeight;
 
   /// Remote resource to download
-  final String image;
+  final String? image;
 
   final Duration duration;
 
   final Curve curve;
 
-  final bool transparant;
+  final bool? transparant;
   @override
   BlurHashState createState() => BlurHashState();
 }
 
 class BlurHashState extends State<BlurHash> {
-  Future<ui.Image> _image;
-  bool loaded;
-  bool loading;
+  Future<ui.Image>? _image;
+  bool? loaded;
+  bool? loading;
 
   @override
   void initState() {
@@ -114,19 +111,19 @@ class BlurHashState extends State<BlurHash> {
         ],
       );
 
-  Widget prepareDisplayedImage() => isURL(widget.image)
+  Widget prepareDisplayedImage() => isURL(widget.image!)
       ? Image.network(
-          widget.image,
+          widget.image!,
           fit: widget.imageFit,
           loadingBuilder: loadingBuilder,
         )
       : Image.file(
-          File(widget.image),
+          File(widget.image!),
           fit: widget.imageFit,
         );
 
   Widget loadingBuilder(
-      BuildContext context, Widget img, ImageChunkEvent loadingProgress) {
+      BuildContext context, Widget img, ImageChunkEvent? loadingProgress) {
     // Download started
     if (loading == false) {
       loading = true;
@@ -151,7 +148,7 @@ class BlurHashState extends State<BlurHash> {
   Widget buildBlurHashBackground() => FutureBuilder<ui.Image>(
         future: _image,
         builder: (ctx, snap) => snap.hasData
-            ? Image(image: UiImage(snap.data), fit: widget.imageFit)
+            ? Image(image: UiImage(snap.data!), fit: widget.imageFit)
             : Container(color: widget.color),
       );
 }
@@ -163,14 +160,11 @@ class _DisplayImage extends StatefulWidget {
   final Curve curve;
 
   const _DisplayImage(
-      {@required this.child,
+      {required this.child,
       this.duration = const Duration(milliseconds: 800),
-      this.curve,
-      Key key})
-      : assert(duration != null),
-        assert(curve != null),
-        assert(child != null),
-        super(key: key);
+      required this.curve,
+      Key? key})
+      : super(key: key);
 
   @override
   _DisplayImageState createState() => _DisplayImageState();
@@ -178,8 +172,8 @@ class _DisplayImage extends StatefulWidget {
 
 class _DisplayImageState extends State<_DisplayImage>
     with SingleTickerProviderStateMixin {
-  Animation<double> opacity;
-  AnimationController controller;
+  late Animation<double> opacity;
+  late AnimationController controller;
 
   @override
   Widget build(BuildContext context) => FadeTransition(
@@ -207,9 +201,7 @@ class UiImage extends ImageProvider<UiImage> {
   final ui.Image image;
   final double scale;
 
-  const UiImage(this.image, {this.scale = 1.0})
-      : assert(image != null),
-        assert(scale != null);
+  const UiImage(this.image, {this.scale = 1.0});
 
   @override
   Future<UiImage> obtainKey(ImageConfiguration configuration) =>
