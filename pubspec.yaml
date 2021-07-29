@@ -1,5 +1,6 @@
 name: blurhash
-description: combination of  flutter_blurhash and blurhash-dart to create a full flutter implementation of the blurha.sh algorithm.
+description: combination of  flutter_blurhash and blurhash-dart to create a full
+  flutter implementation of the blurha.sh algorithm.
 author: casvanluijtelaar
 version: 0.1.0
 
@@ -9,11 +10,10 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  string_validator: ^0.3.0
   flutter:
     sdk: flutter
+  string_validator: ^0.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-

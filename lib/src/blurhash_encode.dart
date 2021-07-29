@@ -25,7 +25,7 @@ String blurHashEncode(
     );
   }
 
-  final factors = <_Pixel>[];
+  final factors = List<_Pixel?>.filled(numCompX*numpCompY, null);
   int i = 0;
   for (var y = 0; y < numpCompY; ++y) {
     for (var x = 0; x < numCompX; ++x) {
@@ -57,9 +57,9 @@ String blurHashEncode(
     blurHash.write(encode83(0, 1));
   }
 
-  blurHash.write(encode83(_encodeDC(dc), 4));
+  blurHash.write(encode83(_encodeDC(dc!), 4));
   for (final factor in ac) {
-    blurHash.write(encode83(_encodeAC(factor, maxVal), 2));
+    blurHash.write(encode83(_encodeAC(factor!, maxVal), 2));
   }
   return blurHash.toString();
 }
