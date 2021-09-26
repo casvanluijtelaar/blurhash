@@ -1,8 +1,8 @@
 name: blurhash
 description: combination of  flutter_blurhash and blurhash-dart to create a full
   flutter implementation of the blurha.sh algorithm.
-author: casvanluijtelaar
-version: 0.1.0
+
+version: 0.1.1
 
 publish_to: "none"
 

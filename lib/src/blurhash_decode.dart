@@ -25,7 +25,7 @@ Future<Uint8List> blurHashDecode({
   final quantisedMaximumValue = decode83(blurHash[1]);
   final maximumValue = (quantisedMaximumValue + 1) / 166;
 
-  final colors = [];
+  final colors = List<List<dynamic>>.filled(numX*numY, List.filled(3, 0));
 
   for (var i = 0; i < colors.length; i++) {
     if (i == 0) {
