@@ -117,13 +117,21 @@ class BlurHashState extends State<BlurHash> {
           fit: widget.imageFit,
           loadingBuilder: loadingBuilder,
         )
-      : Image.file(
-          File(widget.image!),
-          fit: widget.imageFit,
-        );
+      : kIsWeb
+          ? Image.asset(
+              widget.image!,
+              fit: widget.imageFit,
+            )
+          : Image.file(
+              File(widget.image!),
+              fit: widget.imageFit,
+            );
 
   Widget loadingBuilder(
-      BuildContext context, Widget img, ImageChunkEvent? loadingProgress) {
+    BuildContext context,
+    Widget img,
+    ImageChunkEvent? loadingProgress,
+  ) {
     // Download started
     if (loading == false) {
       loading = true;
