@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -118,8 +119,8 @@ class BlurHashState extends State<BlurHash> {
           loadingBuilder: loadingBuilder,
         )
       : kIsWeb
-          ? Image.asset(
-              widget.image!,
+          ? Image.memory(
+              base64Decode(widget.image!),
               fit: widget.imageFit,
             )
           : Image.file(
